@@ -124,7 +124,7 @@ app.post('/checkLevel4', wrap(async (req, res, next) => {
 app.post('/checkLevel5', wrap(async (req, res, next) => {
   let contractAddress
   const address = req.body.address
-  const count = req.body.count
+  const userCount = Number.parseInt(req.body.count)
   const random = req.body.random
 
   let randomHex = caver.utils.numberToHex(req.body.random)
@@ -145,9 +145,9 @@ app.post('/checkLevel5', wrap(async (req, res, next) => {
     const countContract = new caver.klay.Contract(CountContract.abi, contractAddress)
 
     // Find contract call
-    const count = await countContract.methods.count().call()
-    console.log('count', Number.parseInt(count), Number.parseInt(expectedCount))
-    if(Number.parseInt(count) === Number.parseInt(expectedCount)){
+    const actualCount = await countContract.methods.count().call()
+    console.log('count', Number.parseInt(actualCount), Number.parseInt(expectedCount) , userCount)
+    if(userCount === Number.parseInt(actualCount) && userCount === Number.parseInt(expectedCount)){
       const result = await champContract.methods.updateUserLevel(address,5).send({
         gas: '200000',
         from: process.env.ADDRESS,

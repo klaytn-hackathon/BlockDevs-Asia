@@ -29,7 +29,7 @@ export async function httpRegisterUser (context, address) {
 
     context.commit('user/submissionProgress', 40, { root: true })
   } catch (err) {
-    context.commit('user/submissionProgress', 40, { root: true })
+    context.commit('user/submissionProgress', 0, { root: true })
   }
 }
 
